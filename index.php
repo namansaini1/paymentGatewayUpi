@@ -7,7 +7,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-image: url('icon/upigateway_bg.webp'); /* ✅ Your background image */
+            background-image: url('upigateway_bg.webp'); /* ✅ Your background image */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
