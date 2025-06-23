@@ -15,5 +15,42 @@ if (isset($_POST["amount"])) {
         "customer_mobile"=>"9876543210",
         'redirect_url'=>"$callback_url" 
     );
+    $jsonpaymentdata = json_encode($payload_data);
+    $curl = curl_init();
+ 
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.ekqr.in/api/create_order',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>$jsonpaymentdata,
+  CURLOPT_HTTPHEADER => array(
+    'Content-Type: application/json'
+  ),
+));
+ 
+$response = curl_exec($curl);
+$err = curl_error($curl);
+curl_close($curl);
+ 
+if ($err) {
+  echo "cURL Error #:" . $err;
+} else {
+ 
+ $res = json_decode($response);
+ 
+if(isset($res->status)){
+ 
+$order_id=$res->data->order_id;
+$payUrl=$res->data->payment_url;
+$upi_hash=$res->data->upi_id_hash;
+ 
+header('Location:'.$payUrl);
+}
+}
 }
 else {echo"page not fountrd"; exit;}
